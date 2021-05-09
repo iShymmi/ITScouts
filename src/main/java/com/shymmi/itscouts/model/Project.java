@@ -1,18 +1,26 @@
 package com.shymmi.itscouts.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Project extends BaseEntity {
+
+    public Project(Long id, Talent talent, String title, String description) {
+        super(id);
+        this.talent = talent;
+        this.title = title;
+        this.description = description;
+    }
 
     @ManyToOne
     private Talent talent;
