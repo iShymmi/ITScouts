@@ -1,7 +1,7 @@
 package com.shymmi.itscouts.controller;
 
-import com.shymmi.itscouts.exception.TalentNotFoundException;
-import com.shymmi.itscouts.repository.TalentRepository;
+import com.shymmi.itscouts.Service.TalentService;
+import com.shymmi.itscouts.model.Project;
 import com.shymmi.itscouts.model.Talent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,23 +12,25 @@ import java.util.List;
 @RestController
 public class TelentController {
 
-    private final TalentRepository talentDao;
+    private final TalentService talentService;
 
-    public TelentController(TalentRepository talentDao) {
-        this.talentDao = talentDao;
+    public TelentController(TalentService talentService) {
+        this.talentService = talentService;
     }
 
     @GetMapping("/talents")
-    List<Talent> findAll(){
-        return talentDao.findAll();
+    public List<Talent> findAll(){
+        return talentService.findAll();
     }
 
     @GetMapping("/talents/{id}")
-    Talent findById(@PathVariable Long id){
-
-        return talentDao.findById(id)
-                .orElseThrow(() -> new TalentNotFoundException(id));
+    public Talent findById(@PathVariable Long id){
+        return talentService.findBytId(id);
     }
 
+    @GetMapping("/talents/{id}/projects")
+    public List<Project> getTalentProjects(@PathVariable Long id){
+        return talentService.findTalentProjects(id);
+    }
 
 }

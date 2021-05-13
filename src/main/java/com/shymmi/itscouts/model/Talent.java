@@ -1,31 +1,20 @@
 package com.shymmi.itscouts.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 public class Talent extends Person{
 
-    public Talent(Long id, String firstName, String lastName, Contact contact, Set<Speciality> speciality, Set<Technology> technologies, String about, Set<Project> projects) {
-        super(id, firstName, lastName);
-        this.contact = contact;
-        this.speciality = speciality;
-        this.technologies = technologies;
-        this.about = about;
-        this.projects = projects;
-    }
-
     @OneToOne(cascade = CascadeType.ALL)
-    private Contact contact;
+    private Location contact;
 
     @OneToMany
     @JoinColumn(name = "speciality_id", nullable = true)
@@ -39,6 +28,14 @@ public class Talent extends Person{
     @Column(name = "about")
     private String about;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "talent")
-    private Set<Project> projects;
+    private Set<Project> projects = new HashSet<>();
+
+    public Talent addProject(Project project) {
+        project.setTalent(this);
+        this.projects.add(project);
+
+        return this;
+    }
 }

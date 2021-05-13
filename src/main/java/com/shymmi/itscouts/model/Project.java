@@ -1,27 +1,27 @@
 package com.shymmi.itscouts.model;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
+@Data
+@EqualsAndHashCode(exclude = {"talent"}, callSuper = false)
+@NoArgsConstructor
 public class Project extends BaseEntity {
 
-    public Project(Long id, Talent talent, String title, String description) {
-        super(id);
-        this.talent = talent;
+    public Project(String title, String description) {
         this.title = title;
         this.description = description;
     }
 
+    @JsonBackReference
     @ManyToOne
     private Talent talent;
 

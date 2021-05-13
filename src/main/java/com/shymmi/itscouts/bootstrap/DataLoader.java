@@ -14,36 +14,43 @@ import java.util.List;
 @Slf4j
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
-    private final TalentRepository talentDao;
+    private final TalentRepository talentRepository;
 
     public DataLoader(TalentRepository talentDao) {
-        this.talentDao = talentDao;
+        this.talentRepository = talentDao;
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        talentDao.saveAll(loadTalents());
+        talentRepository.saveAll(loadTalents());
         log.debug("Loaded bootstrap data");
     }
 
     private List<Talent> loadTalents() {
         List<Talent> talents = new ArrayList<>();
         Talent talent = new Talent();
-        Contact contact = new Contact(1l,"Gd","23","32");
-        Speciality speciality = new Speciality(1l, "DG", "asds");
-        Technology technology = new Technology(1l, "DG","adsa");
+        Speciality speciality = new Speciality(1L, "DG", "asds");
+        Technology technology = new Technology(1L, "DG","adsa");
 
-        String about = "Some about text";
-
-        Project project = new Project(1l, talent, "sadsa","sadsad");
-
-        //talent.setContact(contact);
+        Project project = new Project("Extra project", "Some good rpoject");
 
         talent.setFirstName("Jan");
         talent.setLastName("Nowak");
-        talent.setAbout("About text");
+        talent.setAbout("Some about text");
+
+        talent.addProject(project);
 
         talents.add(talent);
+
+        Project project1 = new Project("Another great project", "That really good");
+        Talent talent1 = new Talent();
+        talent1.setFirstName("Andrew");
+        talent1.setLastName("Moki");
+        talent1.setAbout("About him");
+
+        talent1.addProject(project1);
+
+        talents.add(talent1);
 
         return talents;
     }
