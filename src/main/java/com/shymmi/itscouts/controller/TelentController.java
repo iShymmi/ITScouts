@@ -1,11 +1,10 @@
 package com.shymmi.itscouts.controller;
 
 import com.shymmi.itscouts.Service.TalentService;
+import com.shymmi.itscouts.dto.TalentDTO;
 import com.shymmi.itscouts.model.Project;
 import com.shymmi.itscouts.model.Talent;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,13 +18,23 @@ public class TelentController {
     }
 
     @GetMapping("/talents")
-    public List<Talent> findAll(){
+    public List<TalentDTO> findAll(){
         return talentService.findAll();
     }
 
     @GetMapping("/talents/{id}")
     public Talent findById(@PathVariable Long id){
         return talentService.findBytId(id);
+    }
+
+    @DeleteMapping("/talents/{id}")
+    public void deleteById(@PathVariable Long id){
+        talentService.deleteById(id);
+    }
+
+    @PostMapping("/talents")
+    public Talent addNewTalent(@RequestBody Talent talent){
+        return talentService.addNewTalent(talent);
     }
 
     @GetMapping("/talents/{id}/projects")

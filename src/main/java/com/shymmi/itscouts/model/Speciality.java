@@ -1,5 +1,6 @@
 package com.shymmi.itscouts.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,15 +14,12 @@ import javax.persistence.Entity;
 @Entity
 public class Speciality extends BaseEntity{
 
-    public Speciality(Long id, String name, String description) {
+    @Builder
+    public Speciality(Long id, String name) {
         super(id);
         this.name = name;
-        this.description = description;
     }
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "desription")
-    private String description;
 }
